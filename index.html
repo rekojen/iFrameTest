@@ -14,75 +14,51 @@
 <body>
 
 <script type="text/javascript" charset="utf-8">
-  (function (g, e, n, es, ys) {
-    g['_genesysJs'] = e;
-    g[e] = g[e] || function () {
-      (g[e].q = g[e].q || []).push(arguments)
-    };
-    g[e].t = 1 * new Date();
-    g[e].c = es;
-    ys = document.createElement('script'); ys.async = 1; ys.src = n; ys.charset = 'utf-8'; document.head.appendChild(ys);
-  })(window, 'Genesys', 'https://apps.mypurecloud.jp/genesys-bootstrap/genesys.min.js', {
-    environment: 'prod-apne1',
-    deploymentId: '5db43f26-5bd4-482f-92fe-645b24fb6d86'
-  });
+    (function (g, e, n, es, ys) {
+        g['_genesysJs'] = e;
+        g[e] = g[e] || function () {
+            (g[e].q = g[e].q || []).push(arguments)
+        };
+        g[e].t = 1 * new Date();
+        g[e].c = es;
+        ys = document.createElement('script'); ys.async = 1; ys.src = n; ys.charset = 'utf-8'; document.head.appendChild(ys);
+    })(window, 'Genesys', 'https://apps.mypurecloud.jp/genesys-bootstrap/genesys.min.js', {
+        environment: 'prod-apne1',
+        deploymentId: '5db43f26-5bd4-482f-92fe-645b24fb6d86'
+    });
 
-        //Subscribe to conversation
-        Genesys("subscribe", "MessagingService.messagesReceived", function (o) {
-            try {
-                if (o.data.messages[0].text === 'iFrame') {
-                    console.log('iFrame popup detected')
-                    popIframe()
-                }
-            } catch (err) {
-                console.error(err)
+    //Subscribe to conversation
+    Genesys("subscribe", "MessagingService.messagesReceived", function (o) {
+        try {
+            if (o.data.messages[0].text === 'iFrame') {
+                console.log('iFrame popup detected')
+                popIframe()
             }
-        });
-
-        function openChat() {
-            Genesys("command", "Messenger.open")
+        } catch (err) {
+            console.error(err)
         }
+    });
 
-        function closeChat() {
-            Genesys("command", "Messenger.close")
-        }
+    //You can add customAttributes to the interaction
+    function setData(key, value) {
+        Genesys("command", "Database.set", { messaging: { customAttributes: { [key]: value } } })
+    }
 
-        //You can add customAttributes to the interaction
-        function setData(key, value) {
-            Genesys("command", "Database.set", { messaging: { customAttributes: { [key]: value } } })
-        }
+    //Bootstrap iFrame Invite
+    function popIframe() {
+        document.getElementById('iFramePop').className = 'toast show'
+    }
 
-        //Bootstrap iFrame Invite
-        function popIframe() {
-            document.getElementById('iFramePop').className = 'toast show'
-        }
+    //Bootstrap iFrame Invite
+    function closeIframe() {
+        document.getElementById('iFramePop').className = 'toast hide'
+    }
+</script>
 
-        //Bootstrap iFrame Invite
-        function closeIframe() {
-            document.getElementById('iFramePop').className = 'toast hide'
-        }
-
-        //JavaScript Native way to get Url Parameters for config
-        function getParameterByName(name, url) {
-            if (!url) url = window.location.href;
-            name = name.replace(/[\[\]]/g, '$&');
-            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, ' '));
-        }
-
-    </script>
     <div class="row align-items-center">
         <h1 style="text-align: center;">Genesys WebMessaging iFrame popup</h1>
     </div>
     <div class="container">
-        <br>
-        <button onclick="openChat()" class="btn btn-secondary">Open Chat</button>
-        <button onclick="closeChat()" class="btn btn-secondary">Close Chat</button>
-        <br>
-        <br>
         <button onclick="popIframe()" class="btn btn-secondary">Pop Invite</button>
         <button onclick="closeIframe()" class="btn btn-secondary">Close Invite</button>
     </div>
@@ -98,15 +74,10 @@
             </div>
             <div id="iFramePopBody" class="toast-body" style="height: 100%;">
                 <!--For the example im getting the URL from a parameter this could be statically set or pulled from teh page etc in the real world-->
-                <iframe id="iFrameSrc" src="" height="100%" width="100%"></iframe>
+                <iframe id="iFrameSrc" src="http://www.google.com" height="100%" width="100%"></iframe>
             </div>
         </div>
     </div>
-
-    <script>
-        //For the example im getting the URL from a parameter this could be statically set or pulled from the page etc in the real world
-        document.getElementById('iFrameSrc').src = "www.google.com"
-    </script>
 
 </body>
 
