@@ -28,16 +28,10 @@
     });
 
     //Subscribe to conversation
-    Genesys("subscribe", "MessagingService.messagesReceived", function (o) {
-        try {
-            if (o.data.messages[0].text === 'iFrame') {
-                console.log('iFrame popup detected')
-                popIframe()
-            }
-        } catch (err) {
-            console.error(err)
-        }
+    Genesys("subscribe", "MessagingService.messagesReceived", function({ data }) {
+    console.log(data);
     });
+
 
     //You can add customAttributes to the interaction
     function setData(key, value) {
