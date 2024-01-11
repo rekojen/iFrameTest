@@ -31,7 +31,6 @@
 Genesys("subscribe", "MessagingService.messagesReceived", function (o) {
     try {
         console.log(o.data.messages[0].text);
-        popIframe();
     } catch (err) {
         console.error(err);
     }
