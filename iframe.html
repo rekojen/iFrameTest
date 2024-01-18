@@ -3,17 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Two Input Boxes</title>
+    <title>User Information</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
 
-    <label for="inputBox1">Input Box 1:</label>
-    <input type="text" id="inputBox1" name="inputBox1">
+    <form>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
 
-    <br>
+        <br>
 
-    <label for="inputBox2">Input Box 2:</label>
-    <input type="text" id="inputBox2" name="inputBox2">
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="e.g., 123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+        <small>Format: 123-456-7890</small>
+
+        <br>
+
+        <label for="accountNumber">Account Number:</label>
+        <input type="text" id="accountNumber" name="accountNumber">
+
+        <br>
+
+        <input type="submit" value="Submit">
+    </form>
 
 </body>
 </html>
